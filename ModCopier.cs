@@ -26,23 +26,13 @@ public class ModCopier
     {
         ModPath = mod;
         CopyDest = Path.Combine(CopyRoot, Path.GetFileName(mod));
-    }
-    //it could be more in depth (only delete files that no longer exist or have name changes) 
-    //but i didnt feel like doing a mod serializer for this one + its not really necessary (the mod serializer was used to check if we need to rebuild an entire DLL, which takes time)
-    //building is not required here, so that is a nonissue, however
-    //i have so many mods for qud i felt like it would be laggy sifting through 100s/1000s of files (mostly just project files and not actual mod code)
-    //this one instead you just put in the name of the mod you want to copy in mods.xml so it only sifts through that mod directory
-    void Delete() //incase you change file names, or remove files, we just do a wholesale deletion of every file in the directory before transferring
-    {
-        string[] files = Directory.GetFiles(CopyDest!);
-        foreach (var file in files)
-            File.Delete(file);
+        Console.WriteLine(CopyDest);
     }
 
     public void Copy()
     {
         Delete();
-        IEnumerable<string> files = Directory.GetFiles(ModPath!, "*", SearchOption.AllDirectories);
+        IEnumerable<string> files = Directory.EnumerateFiles(ModPath!, "*", SearchOption.AllDirectories);
         IEnumerable<string> codes = GetCode(files);
         Copy(codes, CodeCopyPath);
         IEnumerable<string> textures = GetTextures(files);
@@ -95,5 +85,20 @@ public class ModCopier
     {
         return (sourcePath, Path.Combine(CopyDest!, Path.GetFileName(sourcePath)));
     }
+
+
+    void Delete() //incase you change file names, or remove files, we just do a wholesale deletion of every file in the directory before transferring
+    {
+        IEnumerable<string> files = Directory.EnumerateFiles(CopyDest!, "*", SearchOption.AllDirectories);
+        foreach (var file in files)
+        {
+            File.Delete(file);
+        }
+    }
+        //it could be more in depth (only delete files that no longer exist or have name changes) 
+    //but i didnt feel like doing a mod serializer for this one + its not really necessary (the mod serializer was used to check if we need to rebuild an entire DLL, which takes time)
+    //building is not required here, so that is a nonissue, however
+    //i have so many mods for qud i felt like it would be laggy sifting through 100s/1000s of files (mostly just project files and not actual mod code)
+    //this one instead you just put in the name of the mod you want to copy in mods.xml so it only sifts through that mod directory
 
 }

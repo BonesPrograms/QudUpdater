@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("QudUpdater")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8fc085f18c85f9a014a469c47164978dfa05a8d3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c965564371edff554c2dd0feb577a65d3ee945a2")]
 [assembly: System.Reflection.AssemblyProductAttribute("QudUpdater")]
 [assembly: System.Reflection.AssemblyTitleAttribute("QudUpdater")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
