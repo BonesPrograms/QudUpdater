@@ -1,7 +1,7 @@
 namespace QudModUpdater;
 
 //ModCopier does not create mod folders, it requires a target mod folder to already exist.
-//It does not create manifest.json or preview.png, that is up to you.
+//It will copy your manifest.json, preview.png, and workshop.json but will not create them.
 //Organization is lost, all CS and XML files are dumped into the mod root.
 //Only image files in the Textures folder have their directories recreated at copy destination.
 public class ModCopier
@@ -72,12 +72,11 @@ public class ModCopier
     IEnumerable<string> GetCode() //cs and xml files will simply just be dumped into the target mod folder
     {
         IEnumerable<string> subdirectories = Directory.GetDirectories(ModPath!, "*", SearchOption.AllDirectories).Where(mod => !ExcludedFolders.Any(name => mod.Contains(name))).Concat([ModPath!]);
-        return subdirectories.SelectMany(dir => CodeExtensions.SelectMany(file => Directory.GetFiles(dir, file, SearchOption.TopDirectoryOnly)));
+        return subdirectories.SelectMany(dir => CodeExtensions.SelectMany(file => Directory.GetFiles(dir, file, SearchOption.TopDirectoryOnly))).Concat(Directory.GetFiles(ModPath!, "*.json", SearchOption.TopDirectoryOnly)).Concat(Directory.GetFiles(ModPath!, "preview*.png", SearchOption.TopDirectoryOnly));
     }                                                                                                               //this is already a massive enumerable of all valid directories
                                                                                                                     //so top directory only that way we dont search subdirectories twic
     (string, string) TextureCopyPath(string sourcePath)
     {
-        Console.WriteLine(sourcePath);
         string subdir = sourcePath[sourcePath.IndexOf(@"Textures\")..];
         return (sourcePath, Path.Combine(CopyDest!, subdir));//as you can see it *expects* it to be an immediate subdirectory
     }
