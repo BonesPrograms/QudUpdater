@@ -9,21 +9,15 @@ public class ModCopier
     readonly string CopyRoot; //root for the overlying directory - mods will be copied to matching subdirectories in this directory
     string? CopyDest;
     string? ModPath; //mod directory
+    const string Image = ".png";
     static readonly string[] CodeExtensions =
     [
-      "*.xml", "*.cs"
+      ".xml", ".cs", ".json"
     ];
-
-    static readonly string[] TextureExtensions =
-    [
-        "*.jpg", "*.png"
-    ];
-
     static readonly string[] ExcludedFolders = //explicitly exclude code by placing it into a "DoNotShip" folder
     [
       "DoNotShip", "obj", "bin", ".git", ".dotnet", ".vs", "Textures"
     ];
-
     public ModCopier(string copyroot)
     {
         CopyRoot = copyroot;
@@ -33,13 +27,29 @@ public class ModCopier
         ModPath = mod;
         CopyDest = Path.Combine(CopyRoot, Path.GetFileName(mod));
     }
+    //it could be more in depth (only delete files that no longer exist or have name changes) 
+    //but i didnt feel like doing a mod serializer for this one + its not really necessary (the mod serializer was used to check if we need to rebuild an entire DLL, which takes time)
+    //building is not required here, so that is a nonissue, however
+    //i have so many mods for qud i felt like it would be laggy sifting through 100s/1000s of files (mostly just project files and not actual mod code)
+    //this one instead you just put in the name of the mod you want to copy in mods.xml so it only sifts through that mod directory
+    void Delete() //incase you change file names, or remove files, we just do a wholesale deletion of every file in the directory before transferring
+    {
+        string[] files = Directory.GetFiles(CopyDest!);
+        foreach (var file in files)
+            File.Delete(file);
+    }
+
     public void Copy()
     {
-        IEnumerable<string> codes = GetCode();
+        Delete();
+        IEnumerable<string> files = Directory.GetFiles(ModPath!, "*", SearchOption.AllDirectories);
+        IEnumerable<string> codes = GetCode(files);
         Copy(codes, CodeCopyPath);
-        IEnumerable<string> textures = GetTextures();
+        IEnumerable<string> textures = GetTextures(files);
         CreateTextureDirectories(textures);
         Copy(textures, TextureCopyPath);
+        IEnumerable<string> preview = GetPreview(files);
+        Copy(preview, CodeCopyPath);
     }
 
     static void Copy(IEnumerable<string> paths, Func<string, (string, string)> expr)
@@ -64,17 +74,18 @@ public class ModCopier
         }
     }
 
-    IEnumerable<string> GetTextures() //textures however will be placed into their specific directory
+    static IEnumerable<string> GetPreview(IEnumerable<string> files)
     {
-        IEnumerable<string> textures = Directory.GetDirectories(ModPath!, "Textures*", SearchOption.TopDirectoryOnly);
-        return textures.SelectMany(dir => TextureExtensions.SelectMany(file => Directory.GetFiles(dir, file, SearchOption.AllDirectories)));
+        return files.Where(file => Path.GetFileName(file) == "preview.png");
     }
-    IEnumerable<string> GetCode() //cs and xml files will simply just be dumped into the target mod folder
+    static IEnumerable<string> GetTextures(IEnumerable<string> files) //textures however will be placed into their specific directory
     {
-        IEnumerable<string> subdirectories = Directory.GetDirectories(ModPath!, "*", SearchOption.AllDirectories).Where(mod => !ExcludedFolders.Any(name => mod.Contains(name))).Concat([ModPath!]);
-        return subdirectories.SelectMany(dir => CodeExtensions.SelectMany(file => Directory.GetFiles(dir, file, SearchOption.TopDirectoryOnly))).Concat(Directory.GetFiles(ModPath!, "*.json", SearchOption.TopDirectoryOnly)).Concat(Directory.GetFiles(ModPath!, "preview*.png", SearchOption.TopDirectoryOnly));
-    }                                                                                                               //this is already a massive enumerable of all valid directories
-                                                                                                                    //so top directory only that way we dont search subdirectories twic
+        return files.Where(file => file.Contains("Textures") && Path.GetExtension(file) == Image);
+    }
+    static IEnumerable<string> GetCode(IEnumerable<string> files) //cs and xml files will simply just be dumped into the target mod folder
+    {
+        return files.Where(file => CodeExtensions.Contains(Path.GetExtension(file))).Where(file => !ExcludedFolders.Any(name => file.Contains(name)));
+    }
     (string, string) TextureCopyPath(string sourcePath)
     {
         string subdir = sourcePath[sourcePath.IndexOf(@"Textures\")..];
