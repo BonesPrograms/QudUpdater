@@ -11,7 +11,7 @@ public static class ModDirectories
     static readonly XDocument XML = XDocument.Load(XmlPath); //will throw a filenotfoundexception of the modlab or mods.xml cannot be located
     public static List<string> GetModDirectories()
     {
-        string[] subdirectories = Directory.GetDirectories(ModLab);
+        IEnumerable<string> subdirectories = Directory.EnumerateDirectories(ModLab);
         string[] xmlValues = [.. XML.Descendants("mod").Select(x => x.Value)];
         List<string> dirs = new(xmlValues.Length);
         foreach (var dir in subdirectories)
