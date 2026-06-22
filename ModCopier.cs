@@ -20,13 +20,16 @@ public class ModCopier
     ];
     public ModCopier(string copyroot)
     {
+        if (!Directory.Exists(copyroot))
+            throw new DirectoryNotFoundException($"Directory {copyroot} does not exist!");
         CopyRoot = copyroot;
     }
     public void Update(string mod)
     {
+        if (!Directory.Exists(mod))
+            throw new DirectoryNotFoundException($"Directory {mod} not found!");
         ModPath = mod;
         CopyDest = Path.Combine(CopyRoot, Path.GetFileName(mod));
-        Console.WriteLine(CopyDest);
     }
 
     public void Copy()
@@ -46,7 +49,10 @@ public class ModCopier
     {
         IEnumerable<(string, string)> copyPaths = paths.Select(expr);
         foreach (var copy in copyPaths)
+        {
+            Console.WriteLine($"{copy.Item1} to {copy.Item2}");
             File.Copy(copy.Item1, copy.Item2, true);
+        }
     }
 
     void CreateTextureDirectories(IEnumerable<string> textures)
@@ -92,10 +98,11 @@ public class ModCopier
         IEnumerable<string> files = Directory.EnumerateFiles(CopyDest!, "*", SearchOption.AllDirectories);
         foreach (var file in files)
         {
+            Console.WriteLine($"Deleting {file}");
             File.Delete(file);
         }
     }
-        //it could be more in depth (only delete files that no longer exist or have name changes) 
+    //it could be more in depth (only delete files that no longer exist or have name changes) 
     //but i didnt feel like doing a mod serializer for this one + its not really necessary (the mod serializer was used to check if we need to rebuild an entire DLL, which takes time)
     //building is not required here, so that is a nonissue, however
     //i have so many mods for qud i felt like it would be laggy sifting through 100s/1000s of files (mostly just project files and not actual mod code)

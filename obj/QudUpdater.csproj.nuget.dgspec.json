@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\user\\Desktop\\QudUpdater\\QudUpdater.csproj": {}
+    "C:\\Users\\user\\Desktop\\QudUpdater\\QudUpdater.csproj": {}
   },
   "projects": {
-    "c:\\Users\\user\\Desktop\\QudUpdater\\QudUpdater.csproj": {
+    "C:\\Users\\user\\Desktop\\QudUpdater\\QudUpdater.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\user\\Desktop\\QudUpdater\\QudUpdater.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Desktop\\QudUpdater\\QudUpdater.csproj",
         "projectName": "QudUpdater",
-        "projectPath": "c:\\Users\\user\\Desktop\\QudUpdater\\QudUpdater.csproj",
+        "projectPath": "C:\\Users\\user\\Desktop\\QudUpdater\\QudUpdater.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\user\\Desktop\\QudUpdater\\obj\\",
+        "outputPath": "C:\\Users\\user\\Desktop\\QudUpdater\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -22,16 +22,16 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net10.0"
+          "net10.0-windows"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net10.0": {
-            "framework": "net10.0",
-            "targetAlias": "net10.0",
+          "net10.0-windows": {
+            "framework": "net10.0-windows7.0",
+            "targetAlias": "net10.0-windows",
             "projectReferences": {}
           }
         },
@@ -48,9 +48,9 @@
         "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
-        "net10.0": {
-          "framework": "net10.0",
-          "targetAlias": "net10.0",
+        "net10.0-windows": {
+          "framework": "net10.0-windows7.0",
+          "targetAlias": "net10.0-windows",
           "imports": [
             "net461",
             "net462",

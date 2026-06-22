@@ -1,14 +1,16 @@
 ﻿global using static QudModUpdater.DebugTools;
+using BonesClassLibrary.FileFinders;
 using QudModUpdater;
 
-const string start = @"C:\Users\user\Desktop\DevVersions";
-const string copy = @"C:\Users\user\AppData\LocalLow\Freehold Games\CavesOfQud\Mods";
-const string xml = @"C:\Users\user\Desktop\DevVersions\mods.xml";
 
-ModDirectories directories = new(start, xml);
-IEnumerable<string> mods = directories.Mods;
-ModCopier copier = new(copy);
-foreach (var mod in mods)
+string locallow = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "Low";
+string copyTo = Path.Combine(locallow, @"Freehold Games\CavesOfQud\Mods");
+
+if (!Directory.Exists(copyTo))
+    throw new DirectoryNotFoundException("Cannot find Qud Mods directory!");
+
+ModCopier copier = new(copyTo);
+foreach (var mod in ModDirectories.GetModDirectories())
 {
     copier.Update(mod);
     copier.Copy();
