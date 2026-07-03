@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\user\\Desktop\\C#Lab\\QudModLab\\QudUpdater\\QudUpdater.csproj": {}
+    "c:\\Users\\user\\Desktop\\C#Lab\\QudModLab\\QudUpdater\\QudUpdater.csproj": {}
   },
   "projects": {
-    "C:\\Users\\user\\Desktop\\C#Lab\\QudModLab\\QudUpdater\\QudUpdater.csproj": {
+    "c:\\Users\\user\\Desktop\\C#Lab\\QudModLab\\QudUpdater\\QudUpdater.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\Desktop\\C#Lab\\QudModLab\\QudUpdater\\QudUpdater.csproj",
+        "projectUniqueName": "c:\\Users\\user\\Desktop\\C#Lab\\QudModLab\\QudUpdater\\QudUpdater.csproj",
         "projectName": "QudUpdater",
-        "projectPath": "C:\\Users\\user\\Desktop\\C#Lab\\QudModLab\\QudUpdater\\QudUpdater.csproj",
+        "projectPath": "c:\\Users\\user\\Desktop\\C#Lab\\QudModLab\\QudUpdater\\QudUpdater.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\Desktop\\C#Lab\\QudModLab\\QudUpdater\\obj\\",
+        "outputPath": "c:\\Users\\user\\Desktop\\C#Lab\\QudModLab\\QudUpdater\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
